@@ -1,0 +1,90 @@
+@use '../styles/tokens' as *;
+
+.perm-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--status-warning-soft);
+  color: var(--status-warning);
+  font-weight: 500;
+}
+
+.perm {
+  &__table {
+    width: 100%;
+    min-width: 960px;
+    border-collapse: collapse;
+    th, td { border-bottom: 1px solid var(--border-default); }
+    thead th {
+      padding: 14px 12px;
+      background: var(--bg-subtle);
+      border-left: 1px solid var(--border-default);
+      text-align: center;
+      font-weight: 700;
+      small { display: block; font-size: 12px; font-weight: 400; color: var(--text-tertiary); }
+      &:first-child { width: 270px; text-align: left; padding-left: 24px; border-left: 0; font-weight: 500; color: var(--text-secondary); }
+    }
+    tbody th {
+      padding: 0 24px;
+      height: 49px;
+      text-align: left;
+      font-weight: 400;
+      button { display: inline-flex; align-items: center; gap: 6px; margin-left: -20px; }
+      small { display: block; font-size: 12px; color: var(--text-tertiary); }
+    }
+  }
+  &__role { display: inline-flex; align-items: center; gap: 4px; }
+  &__child th { padding-left: 48px !important; color: var(--text-secondary); }
+  &__cell { padding: 8px 12px; text-align: center; border-left: 1px solid var(--border-default); &.is-changed .perm-pill { outline: 2px solid var(--status-warning); outline-offset: 2px; } }
+  &__scope { background: var(--bg-subtle); th { height: 60px !important; } }
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 14px 24px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    span { display: inline-flex; align-items: center; gap: 8px; }
+    .perm-pill { padding: 2px 10px; }
+  }
+}
+
+.perm-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  select {
+    appearance: none;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    padding-right: 2px;
+    cursor: pointer;
+    text-align: center;
+    &:disabled { cursor: not-allowed; }
+    &:focus-visible { outline: none; }
+  }
+  &:focus-within { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
+  svg { pointer-events: none; opacity: 0.7; }
+  &.is-처리 { background: var(--brand-primary-soft); color: var(--brand-primary-strong); }
+  &.is-조회 { background: var(--bg-hover); color: var(--text-primary); }
+  &.is-숨김 { background: var(--bg-surface); border: 1px solid var(--border-default); color: var(--text-tertiary); font-weight: 500; }
+  &.is-혼합 { background: var(--status-warning-soft); color: var(--status-warning); }
+  &.is-전체, &[class*='is-담당'], &[class*='is-본인'] { background: var(--bg-surface); border: 1px solid var(--border-strong); color: var(--text-primary); font-weight: 500; }
+}
+
+.perm-log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border-default); font-size: 13px; color: var(--text-secondary); }
+  strong { color: var(--text-primary); }
+}

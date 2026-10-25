@@ -1,0 +1,116 @@
+@use '../styles/tokens' as *;
+
+.week-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  strong { min-width: 190px; text-align: center; font-size: 15px; small { margin-left: 4px; font-weight: 500; color: var(--text-tertiary); } }
+  .icon-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+}
+
+.gantt-card { overflow: hidden; }
+.gantt__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 24px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.gantt__legend-plan::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  margin-right: 6px;
+  border: 1.5px dashed var(--brand-primary);
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+.gantt-scroll { overflow-x: auto; border-top: 1px solid var(--border-default); }
+
+.gantt {
+  min-width: 980px;
+  --label-w: 120px;
+  &__row {
+    display: grid;
+    grid-template-columns: var(--label-w) repeat(7, minmax(0, 1fr));
+    align-items: center;
+    column-gap: 0;
+    row-gap: 4px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-default);
+    position: relative;
+    &--head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding: 0;
+      background: var(--bg-subtle);
+      span { padding: 10px 12px; font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+      .is-today { color: var(--brand-primary); font-weight: 700; }
+    }
+  }
+  &__line {
+    padding: 10px 16px;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border-default);
+    strong { font-size: 13px; }
+  }
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    small { padding: 1px 6px; border-radius: 5px; background: var(--bg-hover); font-size: 11px; color: var(--text-secondary); }
+  }
+  &__cell {
+    align-self: stretch;
+    margin: -6px 0;
+    border-left: 1px solid var(--border-default);
+    &.is-weekend { background: var(--bg-subtle); }
+    &.is-today { background: rgba(61, 90, 241, 0.05); box-shadow: inset 2px 0 0 var(--brand-primary); }
+  }
+  &__bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 28px;
+    margin: 0 3px;
+    padding: 0 8px;
+    border-radius: 6px;
+    overflow: visible;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: 0;
+    &.is-진행 { background: var(--brand-primary-soft); color: var(--brand-primary-strong); .gantt__fill { background: rgba(61, 90, 241, 0.22); } }
+    &.is-일시정지 { background: var(--status-warning-soft); color: var(--status-warning); .gantt__fill { background: rgba(232, 89, 12, 0.18); } }
+    &.is-대기 { background: var(--bg-surface); border: 1px solid var(--border-strong); color: var(--text-secondary); }
+    &.is-완료 { background: var(--status-success-soft); color: var(--status-success); }
+    &.is-late { background: var(--status-danger-soft); color: var(--status-danger); border: 1px solid var(--status-danger); .gantt__fill { background: rgba(229, 72, 77, 0.18); } }
+    &.is-plan {
+      border: 1.5px dashed var(--brand-primary);
+      background: var(--bg-surface);
+      color: var(--brand-primary);
+      font-weight: 600;
+      &:hover:not(:disabled) { background: var(--brand-primary-soft); }
+      &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+    &:hover { z-index: 3; filter: brightness(0.97); }
+  }
+  &__fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px 0 0 6px; }
+  &__text { position: relative; overflow: hidden; text-overflow: ellipsis; }
+  &__tip { left: 0; bottom: calc(100% + 6px); }
+  &__empty { margin: 0; padding: 16px; color: var(--text-tertiary); font-size: 13px; }
+}
+
+@media (max-width: $bp-mobile) {
+  .week-nav strong { min-width: 0; small { display: none; } }
+  .gantt__tools .seg { overflow-x: auto; max-width: 100%; }
+  .gantt-card .card__head { flex-direction: column; }
+}

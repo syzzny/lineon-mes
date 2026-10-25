@@ -1,0 +1,239 @@
+@use '../../styles/tokens' as *;
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  &__word {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-primary);
+    em { font-style: normal; color: var(--brand-primary); }
+  }
+  &__tag {
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--bg-hover);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: none;
+  width: var(--sidebar-w);
+  height: 100vh;
+  padding: 20px 16px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-default);
+  overflow-y: auto;
+
+  &__logo { padding-left: 8px; }
+
+  &__workspace {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    text-align: left;
+    color: var(--text-tertiary);
+    strong { display: block; font-size: 13px; color: var(--text-primary); }
+    small { font-size: 12px; }
+    &:hover { background: var(--bg-subtle); }
+  }
+
+  &__nav { display: flex; flex-direction: column; }
+
+  &__group-title {
+    margin: 0;
+    padding: 12px 12px 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+  }
+
+  &__subs { margin: 2px 0 4px; }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 8px;
+    color: var(--text-tertiary);
+  }
+  &__user-text {
+    flex: 1;
+    strong { display: block; font-size: 14px; color: var(--text-primary); }
+    small { font-size: 12px; }
+  }
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: background 0.15s;
+
+  &:hover { background: var(--bg-hover); }
+  &__label { flex: 1; white-space: nowrap; }
+  &__count {
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: var(--status-danger-soft);
+    color: var(--status-danger);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  &__caret { color: var(--text-tertiary); }
+
+  &.is-active {
+    color: var(--text-primary);
+    font-weight: 700;
+    svg:first-child { color: var(--brand-primary); }
+  }
+}
+
+.nav-sub {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 12px 0 42px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  &:hover { background: var(--bg-hover); }
+  &.is-active {
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary-strong);
+    font-weight: 700;
+  }
+}
+
+.sidebar-backdrop { display: none; }
+
+// 태블릿: 아이콘만 남기고 접기
+@media (max-width: $bp-tablet) {
+  .sidebar {
+    width: 76px;
+    padding: 20px 12px;
+    align-items: center;
+    &__logo { padding: 0; }
+    &__workspace,
+    &__group-title,
+    &__subs,
+    &__user-text,
+    &__user > svg { display: none; }
+    .logo__word, .logo__tag { display: none; }
+  }
+  .nav-item {
+    justify-content: center;
+    width: 52px;
+    padding: 0;
+    &__label, &__caret { display: none; }
+    &__count { position: absolute; transform: translate(12px, -10px); }
+    &.is-active { background: var(--brand-primary-soft); }
+  }
+  .sidebar__group { border-top: 1px solid var(--border-default); padding-top: 8px; margin-top: 8px; }
+  .sidebar__group:first-child { border: 0; margin: 0; padding: 0; }
+}
+
+// 모바일: 화면 밖으로 숨기고 메뉴 버튼으로 열기
+@media (max-width: $bp-mobile) {
+  .sidebar {
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    width: var(--sidebar-w);
+    padding: 20px 16px;
+    align-items: stretch;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    &.is-open { transform: none; }
+    &__logo { padding-left: 8px; }
+    &__workspace { display: flex; }
+    &__group-title, &__subs { display: block; }
+    &__user-text, &__user > svg { display: block; }
+    .logo__word, .logo__tag { display: inline; }
+  }
+  .nav-item {
+    justify-content: flex-start;
+    width: auto;
+    padding: 0 12px;
+    &__label, &__caret { display: inline; }
+    &__count { position: static; transform: none; }
+    &.is-active { background: none; }
+  }
+  .sidebar__group { border: 0; margin: 0; padding: 0; }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(17, 24, 39, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    &.is-open { opacity: 1; pointer-events: auto; }
+  }
+}
+
+// ---------- 사용자 메뉴 ----------
+.user-menu {
+  position: relative;
+  margin-top: auto;
+  .sidebar__user {
+    width: 100%;
+    margin: 0;
+    border-radius: 10px;
+    text-align: left;
+    &:hover { background: var(--bg-hover); }
+  }
+  &__pop {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    z-index: 50;
+    width: 248px;
+    padding: 8px;
+    border: 1px solid var(--border-default);
+    border-radius: 12px;
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-float);
+    hr { margin: 6px 0; border: 0; border-top: 1px solid var(--border-default); }
+    > button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      text-align: left;
+      color: var(--text-secondary);
+      &:hover { background: var(--bg-hover); color: var(--text-primary); }
+      > span:not(.avatar) { flex: 1; }
+      strong { display: block; color: var(--text-primary); font-size: 14px; }
+      small { font-size: 12px; color: var(--text-tertiary); }
+      &.is-on { background: var(--brand-primary-soft); > svg { color: var(--brand-primary); } }
+    }
+  }
+  &__title { margin: 4px 8px 6px; font-size: 12px; font-weight: 600; color: var(--text-tertiary); }
+}
+@media (max-width: $bp-tablet) and (min-width: $bp-mobile + 1) {
+  .user-menu .sidebar__user { justify-content: center; }
+}

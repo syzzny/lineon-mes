@@ -1,0 +1,59 @@
+// LineOn Design System 토큰 — Figma "LineOn DS" 변수와 1:1로 대응
+:root {
+  // Background
+  --bg-canvas: #f5f6f8;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f9fafb;
+  --bg-hover: #f3f4f6;
+
+  // Border
+  --border-default: #e6e8ec;
+  --border-strong: #d1d5db;
+
+  // Text
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --text-inverse: #ffffff;
+
+  // Brand
+  --brand-primary: #3d5af1;
+  --brand-primary-strong: #2c44c9;
+  --brand-primary-soft: #eef1fe;
+
+  // Status
+  --status-success: #12a150;
+  --status-success-soft: #e7f6ee;
+  --status-warning: #e8590c;
+  --status-warning-soft: #fff1e8;
+  --status-danger: #e5484d;
+  --status-danger-soft: #fdecec;
+  --status-neutral: #6b7280;
+  --status-neutral-soft: #f1f3f5;
+
+  // Dark surface (일괄 처리 바, 툴팁)
+  --dark-surface: #111827;
+  --dark-border: #374151;
+
+  // Typography
+  --font-kr: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  --font-num: 'Inter', var(--font-kr);
+
+  // Radius
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  // Shadow
+  --shadow-card: 0 1px 3px rgba(17, 24, 39, 0.04);
+  --shadow-control: 0 1px 2px rgba(17, 24, 39, 0.05);
+  --shadow-float: 0 12px 28px rgba(17, 24, 39, 0.22);
+
+  // Layout
+  --sidebar-w: 248px;
+  --topbar-h: 64px;
+}
+
+// Breakpoints
+$bp-tablet: 1200px;
+$bp-mobile: 768px;

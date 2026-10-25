@@ -1,0 +1,116 @@
+@use '../styles/tokens' as *;
+
+.muted { color: var(--text-tertiary); }
+
+.dash {
+  &__line { width: 150px; }
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+  &__col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+}
+
+.alerts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.alert-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  color: var(--text-tertiary);
+  transition: border-color 0.15s;
+  &:hover { border-color: var(--border-strong); }
+  &__icon {
+    display: inline-flex; align-items: center; justify-content: center; flex: none;
+    width: 44px; height: 44px; border-radius: 12px;
+  }
+  &__text {
+    flex: 1; min-width: 0;
+    > span:first-child { display: block; font-weight: 500; color: var(--text-primary); }
+    strong { font-size: 22px; font-weight: 700; }
+    small { margin-left: 4px; font-size: 13px; color: var(--text-tertiary); }
+  }
+  &.is-danger { .alert-card__icon { background: var(--status-danger-soft); color: var(--status-danger); } strong { color: var(--status-danger); } }
+  &.is-warning { .alert-card__icon { background: var(--status-warning-soft); color: var(--status-warning); } strong { color: var(--status-warning); } }
+  &.is-brand { .alert-card__icon { background: var(--brand-primary-soft); color: var(--brand-primary); } strong { color: var(--brand-primary); } }
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  &__live::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 6px; border: 1.5px dashed var(--brand-primary); border-radius: 2px; background: var(--brand-primary-soft); vertical-align: -1px; }
+  &__target::before { content: ''; display: inline-block; width: 14px; margin-right: 6px; border-top: 2px dashed var(--status-danger); vertical-align: 3px; }
+}
+
+.line-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  &__row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+    span:first-child { flex: 1; font-weight: 500; }
+    strong { font-weight: 700; &.is-warning { color: var(--status-warning); } }
+    &:hover span:first-child { text-decoration: underline; }
+  }
+}
+
+.risk-list {
+  display: flex;
+  flex-direction: column;
+  li { padding: 14px 0; border-bottom: 1px solid var(--border-default); &:first-child { padding-top: 0; } &:last-child { border: 0; padding-bottom: 0; } }
+  p { margin: 6px 0 10px; }
+  &__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  &__bar { display: flex; align-items: center; gap: 12px; .meter { flex: 1; } span { font-size: 13px; color: var(--text-tertiary); white-space: nowrap; } }
+}
+
+.stack-bar {
+  display: flex;
+  gap: 3px;
+  height: 8px;
+  span { border-radius: 4px; }
+  .is-가동 { background: var(--status-success); }
+  .is-비가동 { background: var(--status-danger); }
+  .is-대기 { background: var(--border-strong); }
+  .is-점검 { background: var(--brand-primary); }
+}
+.equip-stat {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+  &__box {
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--bg-subtle);
+    font-size: 13px;
+    color: var(--text-secondary);
+    &:hover { background: var(--bg-hover); }
+    strong { display: block; margin-top: 6px; font-size: 22px; small { margin-left: 2px; font-size: 12px; color: var(--text-tertiary); font-weight: 500; } }
+  }
+}
+
+@media (max-width: $bp-tablet) {
+  .dash__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: $bp-mobile) {
+  .alerts { grid-template-columns: 1fr; gap: 10px; }
+  .equip-stat { grid-template-columns: 1fr 1fr; }
+  .dash .page-top__right { width: 100%; }
+}

@@ -1,0 +1,72 @@
+@use '../styles/tokens' as *;
+
+.dt-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  &__sub { margin: -8px 0 0; color: var(--text-secondary); }
+  &__reasons {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    legend { margin-bottom: 8px; padding: 0; font-weight: 600; }
+    div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 44px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--bg-surface);
+      font-weight: 600;
+      &:hover { background: var(--bg-hover); }
+      &.is-on { border: 2px solid var(--brand-primary); background: var(--brand-primary-soft); color: var(--brand-primary-strong); }
+    }
+  }
+  &__time {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px 10px 16px;
+    border-radius: 10px;
+    background: var(--bg-subtle);
+    > span { font-weight: 600; }
+    strong { font-size: 20px; color: var(--brand-primary); }
+    small { flex: 1; color: var(--text-tertiary); }
+    .input { flex: 1; max-width: 140px; }
+    .btn { margin-left: auto; }
+  }
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary-strong);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  &__foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    .btn { height: 44px; }
+  }
+  &__submit:not(:disabled) { background: var(--dark-surface); &:hover { background: #000; } }
+
+  // 태블릿: 손가락으로 누르기 쉽게 크게
+  &.is-tablet {
+    gap: 20px;
+    .dt-modal__reasons button { height: 60px; font-size: 17px; }
+    .dt-modal__time strong { font-size: 24px; }
+    .dt-modal__foot .btn { height: 64px; font-size: 17px; font-weight: 700; }
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .dt-modal__reasons div { grid-template-columns: 1fr 1fr; }
+}

@@ -1,0 +1,216 @@
+@use '../styles/tokens' as *;
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-bottom: -8px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  &:hover { color: var(--text-primary); }
+}
+
+.muted { color: var(--text-tertiary); }
+
+.detail {
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    h1 { display: flex; align-items: center; gap: 12px; margin: 0 0 4px; font-size: 28px; }
+    p { margin: 0; color: var(--text-secondary); font-size: 15px; .num { color: var(--text-tertiary); } }
+  }
+  &__actions { display: flex; gap: 8px; }
+
+  &__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 16px;
+    align-items: start;
+  }
+  &__panel { padding: 8px 24px 24px; }
+}
+
+// ---------- 비활성 버튼 툴팁 ----------
+.tip {
+  position: relative;
+  display: inline-flex;
+  &__bubble {
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 8px);
+    right: 0;
+    width: max-content;
+    max-width: 280px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--dark-surface);
+    color: var(--text-inverse);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  &:hover .tip__bubble,
+  &:focus-visible .tip__bubble { opacity: 1; }
+}
+
+// ---------- 요약 ----------
+.summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 24px;
+    & + div { border-left: 1px solid var(--border-default); }
+  }
+  span { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+  strong {
+    font-size: 26px;
+    font-weight: 600;
+    small { margin-left: 4px; font-size: 14px; font-weight: 500; color: var(--text-tertiary); }
+    &.is-danger { color: var(--status-danger); }
+  }
+  em { font-style: normal; font-size: 13px; color: var(--text-tertiary); }
+
+  &__bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-hover);
+    overflow: hidden;
+    span { display: block; height: 100%; border-radius: 3px; background: var(--brand-primary); &.is-done { background: var(--status-success); } }
+  }
+  &__due {
+    align-self: flex-start;
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-size: 12px !important;
+    font-weight: 700;
+    &.is-late { background: var(--status-danger-soft); color: var(--status-danger) !important; }
+    &.is-soon { background: var(--status-warning-soft); color: var(--status-warning) !important; }
+  }
+}
+
+// ---------- 기본정보 ----------
+.info {
+  h3 { margin: 16px 0 4px; font-size: 13px; font-weight: 700; color: var(--text-tertiary); }
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    margin: 0;
+    &--one { grid-template-columns: 1fr; }
+  }
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 44px;
+    border-bottom: 1px solid var(--border-default);
+    dt { flex: none; width: 96px; color: var(--text-secondary); }
+    dd { margin: 0; font-weight: 500; min-width: 0; }
+  }
+  &__person { display: inline-flex; align-items: center; gap: 8px; }
+}
+
+.route {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  &__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-tertiary);
+    > span { padding: 2px 8px; border-radius: 6px; background: var(--bg-hover); color: var(--text-secondary); font-size: 13px; }
+  }
+}
+
+.tab-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 0;
+  color: var(--text-tertiary);
+  p { margin: 0; }
+}
+
+.mini-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-default); }
+  th { font-size: 13px; font-weight: 500; color: var(--text-secondary); background: var(--bg-subtle); }
+  .r { text-align: right; }
+}
+
+// ---------- 진행 이력 ----------
+.history {
+  padding: 20px 24px;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    h2 { margin: 0; font-size: 16px; }
+    span { font-size: 13px; color: var(--text-tertiary); }
+  }
+}
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    display: flex;
+    gap: 14px;
+    padding-bottom: 20px;
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 18px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border-default);
+    }
+    > div { min-width: 0; flex: 1; }
+  }
+  &__dot {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg-surface);
+  }
+  li.is-latest .timeline__dot { border-color: var(--brand-primary); background: var(--brand-primary); box-shadow: 0 0 0 3px var(--brand-primary-soft); }
+  p { margin: 0; }
+  &__title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; }
+  &__meta { margin-top: 2px !important; font-size: 13px; color: var(--text-tertiary); }
+  &__note { margin-top: 6px !important; padding: 6px 10px; border-radius: 8px; background: var(--bg-subtle); font-size: 13px; color: var(--text-secondary); }
+}
+
+@media (max-width: $bp-tablet) {
+  .detail__cols { grid-template-columns: 1fr; }
+}
+@media (max-width: $bp-mobile) {
+  .summary { grid-template-columns: 1fr 1fr; > div:nth-child(odd) { border-left: 0; } > div { border-top: 1px solid var(--border-default); } }
+  .info__grid { grid-template-columns: 1fr; }
+  .detail__head h1 { font-size: 22px; }
+  .detail__actions { width: 100%; > * { flex: 1; } .btn { width: 100%; } }
+  .tip__bubble { right: auto; left: 0; }
+}
+
+.tab-links { display: flex; gap: 16px; margin: 16px 0 0; a { font-size: 14px; font-weight: 500; color: var(--brand-primary); &:hover { text-decoration: underline; } } }

@@ -1,0 +1,49 @@
+@use "../../styles/tokens" as *;
+.app {
+  display: flex;
+  min-height: 100vh;
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+
+// 목록 화면 공통 페이지 틀 (표·필터 등 세부 스타일은 각 컴포넌트 SCSS에 있음)
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 32px 120px;
+}
+
+.data-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+@media (max-width: $bp-mobile) {
+  .page { padding: 20px 16px 110px; }
+}
+
+.no-access {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 560px;
+  margin: 40px auto;
+  padding: 48px 32px;
+  text-align: center;
+  h1 { margin: 8px 0 0; font-size: 20px; }
+  p { margin: 0 0 12px; color: var(--text-secondary); }
+  &__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px; border-radius: 16px;
+    background: var(--status-warning-soft); color: var(--status-warning);
+  }
+}

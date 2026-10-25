@@ -1,0 +1,159 @@
+// ---------- Button ----------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &--primary {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    &:hover { background: var(--brand-primary-strong); }
+  }
+  &--secondary,
+  &--danger {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-control);
+    &:hover { background: var(--bg-hover); }
+  }
+  &--danger {
+    color: var(--status-danger);
+    border-color: var(--status-danger);
+  }
+  &--ghost {
+    color: var(--text-secondary);
+    &:hover { background: var(--bg-hover); color: var(--text-primary); }
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  transition: background 0.15s;
+  &:hover { background: var(--bg-hover); }
+}
+
+// ---------- Status badge ----------
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  &--neutral { color: var(--status-neutral); background: var(--status-neutral-soft); }
+  &--brand   { color: var(--brand-primary); background: var(--brand-primary-soft); }
+  &--warning { color: var(--status-warning); background: var(--status-warning-soft); }
+  &--success { color: var(--status-success); background: var(--status-success-soft); }
+  &--muted   { color: var(--text-tertiary); background: var(--bg-hover); }
+  &--danger  { color: var(--status-danger); background: var(--status-danger-soft); }
+}
+
+// ---------- Checkbox ----------
+.checkbox {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  &__box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--bg-surface);
+    color: transparent;
+    transition: background 0.12s, border-color 0.12s;
+  }
+
+  &__mixed {
+    width: 8px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--text-inverse);
+  }
+
+  input:checked + &__box,
+  input:indeterminate + &__box {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: var(--text-inverse);
+  }
+
+  input:focus-visible + &__box {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ---------- Avatar ----------
+.avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+
+  &--blue   { background: var(--brand-primary-soft); color: var(--brand-primary-strong); }
+  &--green  { background: var(--status-success-soft); color: var(--status-success); }
+  &--orange { background: var(--status-warning-soft); color: var(--status-warning); }
+  &--gray   { background: var(--status-neutral-soft); color: var(--status-neutral); }
+}
+
+// ---------- Count ----------
+.count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+
+  &--active { background: var(--text-primary); color: var(--text-inverse); }
+  &--danger { background: var(--status-danger-soft); color: var(--status-danger); }
+  &--title  { font-size: 14px; padding: 2px 8px; border-radius: 8px; }
+}

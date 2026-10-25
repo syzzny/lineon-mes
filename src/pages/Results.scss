@@ -1,0 +1,13 @@
+@use '../styles/tokens' as *;
+
+.results-top {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 16px;
+  &__kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.is-danger { color: var(--status-danger); font-weight: 600; }
+
+@media (max-width: $bp-tablet) {
+  .results-top { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,157 @@
+.datepicker {
+  position: relative;
+  min-width: 0;
+
+  // 입력칸 전체가 버튼 — 어디를 눌러도 달력이 열림
+  &__trigger {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 12px;
+    text-align: left;
+    cursor: pointer;
+
+    > svg { position: static !important; flex: none; transition: color 0.15s; }
+    &:hover:not(:disabled) { border-color: var(--text-tertiary); }
+    &.is-open { border-color: var(--brand-primary); box-shadow: 0 0 0 3px var(--brand-primary-soft); > svg { color: var(--brand-primary); } }
+    &:focus-visible { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 3px var(--brand-primary-soft); }
+    &.is-disabled { cursor: not-allowed; }
+  }
+  &__value {
+    font-size: 14px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &.is-placeholder { color: var(--text-tertiary); }
+  }
+  .is-disabled &__value { color: var(--text-tertiary); }
+
+  // ---------- 팝오버 ----------
+  &__pop {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 296px;
+    padding: 14px 14px 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(17, 24, 39, 0.14), 0 2px 6px rgba(17, 24, 39, 0.06);
+    animation: dp-in 0.14s ease-out;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    strong { font-size: 15px; font-weight: 600; }
+  }
+  &__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    &:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+    &:disabled { opacity: 0.3; cursor: default; }
+  }
+
+  &__week,
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  &__week {
+    margin-bottom: 4px;
+    span {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+    }
+  }
+
+  &__day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: background 0.1s;
+
+    &:hover:not(:disabled):not(.is-selected) { background: var(--bg-hover); }
+    &:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: -2px; }
+
+    &.is-sun { color: var(--status-danger); }
+    &.is-out { color: var(--text-tertiary); opacity: 0.55; }
+
+    // 오늘: 아래 점
+    &.is-today::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--brand-primary);
+    }
+    &.is-today { font-weight: 700; color: var(--brand-primary); }
+
+    &.is-selected {
+      background: var(--brand-primary);
+      color: var(--text-inverse);
+      font-weight: 700;
+      &::after { background: var(--text-inverse); }
+    }
+
+    &:disabled {
+      color: var(--text-tertiary);
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-default);
+    button {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand-primary);
+      &:hover:not(:disabled) { background: var(--brand-primary-soft); }
+      &:disabled { opacity: 0.4; cursor: not-allowed; }
+    }
+    span { font-size: 12px; color: var(--text-tertiary); }
+  }
+}
+
+@keyframes dp-in {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .datepicker__pop { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .datepicker__pop { width: min(296px, calc(100vw - 32px)); }
+}

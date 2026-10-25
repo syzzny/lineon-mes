@@ -1,0 +1,216 @@
+@use '../styles/tokens' as *;
+
+.card {
+  display: block;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 24px 0;
+    h2 { margin: 0; font-size: 17px; font-weight: 700; }
+    p { margin: 4px 0 0; font-size: 13px; color: var(--text-tertiary); }
+  }
+  &__link {
+    flex: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--brand-primary);
+    white-space: nowrap;
+    &:hover { text-decoration: underline; }
+  }
+  &__body { padding: 16px 24px 20px; }
+  &.is-link { transition: border-color 0.15s, box-shadow 0.15s; &:hover { border-color: var(--border-strong); box-shadow: 0 4px 12px rgba(17, 24, 39, 0.06); } }
+}
+
+// ---------- KPI ----------
+.kpi {
+  padding: 20px 22px;
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 22px;
+    span { font-weight: 500; color: var(--text-secondary); }
+  }
+  &__delta {
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    &.is-good { background: var(--status-success-soft); color: var(--status-success); }
+    &.is-bad { background: var(--status-danger-soft); color: var(--status-danger); }
+  }
+  &__value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 10px 0 12px;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.1;
+    small { font-size: 15px; font-weight: 500; color: var(--text-tertiary); }
+    &.is-danger { color: var(--status-danger); }
+    &.is-warning { color: var(--status-warning); }
+    &.is-brand { color: var(--brand-primary); }
+  }
+  &__sub { margin: 10px 0 0; font-size: 13px; color: var(--text-tertiary); }
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+// ---------- Meter ----------
+.meter {
+  width: 100%;
+  border-radius: 999px;
+  background: var(--bg-hover);
+  overflow: hidden;
+  span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s;
+    &.is-brand { background: var(--brand-primary); }
+    &.is-success { background: var(--status-success); }
+    &.is-warning { background: var(--status-warning); }
+    &.is-danger { background: var(--status-danger); }
+    &.is-neutral { background: var(--border-strong); }
+  }
+}
+
+// ---------- Tag / Dot ----------
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  &--neutral { background: var(--status-neutral-soft); color: var(--status-neutral); }
+  &--brand { background: var(--brand-primary-soft); color: var(--brand-primary); }
+  &--success { background: var(--status-success-soft); color: var(--status-success); }
+  &--warning { background: var(--status-warning-soft); color: var(--status-warning); }
+  &--danger { background: var(--status-danger-soft); color: var(--status-danger); }
+}
+
+.dot-label { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  &--neutral { background: var(--status-neutral); }
+  &--brand { background: var(--brand-primary); }
+  &--success { background: var(--status-success); }
+  &--warning { background: var(--status-warning); }
+  &--danger { background: var(--status-danger); }
+  &--muted { background: var(--border-strong); }
+}
+
+// ---------- Empty ----------
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 36px 16px;
+  text-align: center;
+  color: var(--text-tertiary);
+  strong { color: var(--text-secondary); }
+  p { margin: 0; font-size: 13px; }
+}
+
+// ---------- Live ----------
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--status-success-soft);
+  color: var(--status-success);
+  font-size: 13px;
+  font-weight: 600;
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: live-pulse 2s infinite;
+  }
+}
+@keyframes live-pulse { 50% { opacity: 0.35; } }
+
+// ---------- 공통 페이지 머리 (제목 + 우측 컨트롤) ----------
+.page-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  h1 { margin: 0 0 4px; font-size: 26px; font-weight: 700; }
+  p { margin: 0; color: var(--text-secondary); }
+  &__right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+}
+
+// 세그먼트 버튼 (오늘·이번 주·이번 달)
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--bg-hover);
+  button {
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    &.is-on, &[aria-pressed='true'] { background: var(--bg-surface); color: var(--text-primary); font-weight: 700; box-shadow: var(--shadow-control); }
+  }
+}
+
+// 간단 표 (카드 안 목록)
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-default); white-space: nowrap; }
+  th { font-size: 13px; font-weight: 500; color: var(--text-secondary); background: var(--bg-subtle); }
+  td.r, th.r { text-align: right; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: var(--bg-subtle); }
+  tr.is-alert td { background: var(--status-danger-soft); }
+  tr.is-clickable { cursor: pointer; }
+  tr.is-on td { background: var(--brand-primary-soft); }
+}
+.table-scroll { overflow-x: auto; }
+
+@media (max-width: $bp-tablet) {
+  .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: $bp-mobile) {
+  .kpi-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi { padding: 16px; &__value { font-size: 26px; } }
+  .card__head { padding: 16px 16px 0; }
+  .card__body { padding: 12px 16px 16px; }
+}
+
+// 사용자 폼 (SY-01)
+.user-form {
+  &__fields { display: flex; flex-direction: column; gap: 14px; }
+  &__foot { margin: 20px -24px -20px; }
+}
+.cell-person .muted, .data-card .muted { color: var(--text-tertiary); }

@@ -1,0 +1,22 @@
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 72px 24px;
+  text-align: center;
+
+  h1 { margin: 0; font-size: 22px; }
+  p { margin: 0; color: var(--text-secondary); }
+  .btn { margin-top: 16px; }
+
+  &__icon {
+    display: inline-flex;
+    padding: 14px;
+    border-radius: 16px;
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary);
+    margin-bottom: 8px;
+  }
+  &__id { font-size: 13px; font-weight: 600; color: var(--text-tertiary) !important; }
+}

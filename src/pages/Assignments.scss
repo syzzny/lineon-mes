@@ -1,0 +1,105 @@
+@use '../styles/tokens' as *;
+
+.assign {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+
+  &__queue {
+    position: sticky;
+    top: calc(var(--topbar-h) + 16px);
+    max-height: calc(100vh - var(--topbar-h) - 32px);
+    display: flex;
+    flex-direction: column;
+    ul { flex: 1; overflow-y: auto; padding: 0 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+  }
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 18px 20px 12px;
+    h2 { margin: 0; font-size: 16px; .num { color: var(--brand-primary); } }
+    small { color: var(--text-tertiary); }
+  }
+  &__empty { display: flex; align-items: center; gap: 8px; padding: 24px 8px; color: var(--text-tertiary); }
+  &__more { margin: 0; padding: 12px 20px; border-top: 1px solid var(--border-default); font-size: 13px; color: var(--text-tertiary); }
+
+  &__board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+    align-items: start;
+  }
+}
+
+.wo-card {
+  padding: 14px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  cursor: grab;
+  transition: box-shadow 0.15s, opacity 0.15s;
+  &:hover { box-shadow: 0 4px 12px rgba(17, 24, 39, 0.08); }
+  &.is-dragging { opacity: 0.45; }
+  &.is-highlight { border-color: var(--brand-primary); background: var(--brand-primary-soft); }
+  &__top { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  &__grip { color: var(--text-tertiary); transform: rotate(90deg); }
+  strong { display: block; }
+  p { margin: 4px 0 0; font-size: 12px; color: var(--text-tertiary); }
+  &__assign { display: flex; gap: 6px; margin-top: 10px; .input { flex: 1; min-width: 0; height: 34px; } .btn { height: 34px; padding: 0 12px; } }
+}
+
+.eq-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.15s, background 0.15s;
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; small { display: block; font-size: 12px; color: var(--text-tertiary); } }
+  &__id { font-size: 17px; font-weight: 700; &:hover { text-decoration: underline; } }
+  &__load { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); .meter { flex: 1; } }
+  &__now { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0; font-size: 13px; a { color: var(--brand-primary); } }
+  &__queue { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px dashed var(--border-default); }
+  &__label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+  &__wo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 4px 6px 10px;
+    border-radius: 8px;
+    background: var(--bg-subtle);
+    font-size: 13px;
+    a { color: var(--brand-primary); font-weight: 600; }
+    span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .icon-btn { width: 26px; height: 26px; border: 0; }
+  }
+  &__drop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 10px;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    &.is-deny { border-color: var(--status-danger); color: var(--status-danger); background: var(--status-danger-soft); }
+  }
+  &.is-blocked { background: var(--bg-subtle); }
+  &.is-over { border: 2px solid var(--brand-primary); background: var(--brand-primary-soft); .eq-card__drop { border-color: var(--brand-primary); color: var(--brand-primary); } }
+  &.is-deny { border: 2px solid var(--status-danger); }
+  &.is-focus { border: 2px solid var(--brand-primary); }
+}
+
+@media (max-width: $bp-tablet) {
+  .assign { grid-template-columns: 280px minmax(0, 1fr); }
+}
+@media (max-width: $bp-mobile) {
+  .assign { grid-template-columns: 1fr; &__queue { position: static; max-height: none; } }
+}
