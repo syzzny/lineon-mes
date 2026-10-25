@@ -21,6 +21,7 @@ import './LineMonitoring.scss'
 export default function LineMonitoring() {
   const [params, setParams] = useSearchParams()
   const { user, permissions, equipment, workOrders, downtime, extraOutput, run } = useMes()
+  // 라인은 주소(?line=)로 관리 → 대시보드 등에서 특정 라인으로 바로 들어올 수 있음
   const line = LINES.includes(params.get('line')) ? params.get('line') : user.line && user.line !== '전체' ? user.line : '가공'
   const now = useNow()
   const toast = useToast()
@@ -34,7 +35,7 @@ export default function LineMonitoring() {
   const todayDown = downtime.filter((d) => d.start.startsWith(TODAY) && !d.planned && eqs.some((e) => e.id === d.equip))
   const downMin = todayDown.reduce((n, d) => n + downtimeMinutes(d), 0)
 
-  // 알람·이벤트 로그 (비가동 시작·복구, 점검, 경고)
+  // 알람·이벤트 로그 (비가동 시작·복구, 점검, 경고) — 비가동 이력 데이터에서 만들어 시간 역순 정렬
   const events = [
     ...todayDown.flatMap((d) => [
       { at: d.start, tone: 'danger', tag: '비가동', equip: d.equip, text: `비가동 등록 · ${d.reason} · ${d.by}` },
@@ -129,6 +130,7 @@ export default function LineMonitoring() {
   )
 }
 
+/** 설비 타일 — 상태(가동·비가동·대기·점검)마다 보여주는 내용과 버튼이 다름 */
 function EquipTile({ eq, wo, next, openDown, canAct, onEdit, onResume }) {
   const navigate = useNavigate()
   const worker = WORKERS[eq.id]

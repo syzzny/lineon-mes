@@ -44,12 +44,14 @@ export default function DefectAnalysis() {
 
   const p = PERIODS.find((x) => x.key === period)
   const share = lines.length ? lines.reduce((n, l) => n + LINE_PLAN[l], 0) / TOTAL_PLAN : 1
+  // base: 기간·라인 조건만 적용한 불량 → 지표·차트 계산의 기준
   const base = defects.filter((d) => d.at >= p.from && (!lines.length || lines.includes(d.line)))
 
   // 일별 불량률
   const days = []
   for (let d = p.from; d <= TODAY; d = addDays(d, 1)) days.push(d)
   const output = Math.round(DAILY_OUTPUT * share)
+  // 일별 불량률 = 그날 불량 수량 / 하루 생산량
   const points = days.map((d) => ({ label: d.slice(5).replace('-', '.'), value: Math.round((base.filter((x) => x.at.startsWith(d)).reduce((n, x) => n + x.qty, 0) / output) * 1000) / 10 }))
   const over = points.filter((x) => x.value > TARGET).length
 
@@ -62,6 +64,7 @@ export default function DefectAnalysis() {
   const open = base.filter((d) => d.status === '미조치')
   const oldest = open.reduce((a, b) => (!a || b.at < a.at ? b : a), null)
 
+  // 아래 내역 표에만 유형·조치 상태 필터를 추가로 적용
   const list = base.filter((d) => (!type || d.type === type) && (!status.length || status.includes(d.status)))
   const pageCount = Math.max(1, Math.ceil(list.length / pageSize))
   const cur = Math.min(page, pageCount)
@@ -178,6 +181,7 @@ export default function DefectAnalysis() {
   )
 }
 
+/** 원인·조치 입력 모달 — 완료로 바꾸려면 조치 내용 필수 */
 function ActionModal({ defect, onClose, onSave }) {
   return (
     <Modal open={Boolean(defect)} onClose={onClose} title="원인·조치 입력" description={defect ? `${defect.woId} · ${defect.type} ${defect.qty} EA · ${shortStamp(defect.at)}` : ''} size="sm">

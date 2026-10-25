@@ -27,10 +27,12 @@ export default function DefectForm() {
   const [submitted, setSubmitted] = useState(false)
   const canAct = levelOf(permissions, user.role, 'QC-01') === '처리'
 
+  // 불량을 등록할 수 있는 작업지시: 진행·일시정지 + 최근 완료 건
   const candidates = workOrders.filter((w) => w.status === '진행' || w.status === '일시정지' || (w.status === '완료' && w.due >= '2026-10-15'))
   const wo = workOrders.find((w) => w.id === form.woId)
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }))
   const qty = Number(form.qty)
+  // 검증 규칙 — 제출을 한 번 누른 뒤부터 오류 표시 (submitted)
   const errors = {
     woId: !form.woId && '작업지시를 선택하세요',
     type: !form.type && '불량 유형을 선택하세요',
@@ -43,6 +45,7 @@ export default function DefectForm() {
   const woDefects = wo ? defects.filter((d) => d.woId === wo.id) : []
   const byType = DEFECT_TYPES.map((t) => ({ t, n: woDefects.filter((d) => d.type === t).reduce((a, d) => a + d.qty, 0) })).filter((x) => x.n)
 
+  // again=true면 같은 작업지시로 계속 등록할 수 있게 폼만 비움
   const submit = (again) => {
     setSubmitted(true)
     if (!valid) return

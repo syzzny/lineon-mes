@@ -43,6 +43,7 @@ export default function Assignments() {
 
   const hoursOf = (w) => ((w.qty - w.done) * (items.find((i) => i.code === w.itemCode)?.cycle ?? 60)) / 3600
 
+  // 배정 규칙: 비가동·점검 설비 불가, 다른 라인 설비 불가 → 막히면 이유를 토스트로 안내
   const assign = (woId, equip) => {
     const eq = equipment.find((e) => e.id === equip)
     const wo = workOrders.find((w) => w.id === woId)
@@ -59,6 +60,7 @@ export default function Assignments() {
     toast(`${woId}를 ${equip} · ${WORKERS[equip] ?? '작업자'}에게 배정했어요`)
   }
 
+  // 끌어다 놓기: dataTransfer에 작업지시번호를 실어 설비 카드에 놓으면 배정
   const onDrop = (e, equip) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('text/plain') || dragId

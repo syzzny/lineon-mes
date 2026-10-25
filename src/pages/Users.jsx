@@ -91,6 +91,7 @@ export default function Users() {
   )
 }
 
+/** 사용자 추가·수정 폼 — 라인 반장·현장 작업자만 담당 라인 필수, 현장 작업자는 이메일 없이 태블릿 PIN 로그인 */
 function UserForm({ user, isMe, onSave, onCancel, onReset }) {
   const [f, setF] = useState(user)
   const [submitted, setSubmitted] = useState(false)

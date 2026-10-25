@@ -86,9 +86,11 @@ export default function Tablet() {
   const openDown = downtime.find((d) => d.equip === eq.id && !d.end)
   const types = eq.line === '조립·검사' ? ['용접 불량', '치수 불량', '찍힘·스크래치', '기타'] : ['버(Burr)', '치수 불량', '찍힘·스크래치', '기타']
   const todayDefects = (t) => defects.filter((d) => wo && d.woId === wo.id && d.type === t && d.at.startsWith(TODAY)).reduce((n, d) => n + d.qty, 0)
+  // 비가동으로 일시정지된 동안은 수량 입력 버튼을 막음
   const paused = wo?.status === '일시정지'
   const canUndo = last?.left > 0
 
+  // 등록할 때마다 마지막 행동을 기억 → 5분 안에 실행 취소 가능
   const registerGood = () => {
     run('output/add', { woId: wo.id, good: qty })
     setLast({ kind: 'good', qty, at: now.time, left: UNDO_SEC })
@@ -100,6 +102,7 @@ export default function Tablet() {
     setLast({ kind: 'defect', qty: 1, type, id, at: now.time, left: UNDO_SEC })
     toast(`${type} 1개를 등록했어요`)
   }
+  // 실행 취소: 양품은 반대 수량으로 다시 등록, 불량은 해당 기록 삭제
   const undo = () => {
     if (last.kind === 'good') run('output/add', { woId: wo.id, good: -last.qty, undo: true })
     else run('defect/remove', { id: last.id })

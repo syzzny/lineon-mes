@@ -43,6 +43,7 @@ const COLUMNS = [
 ]
 
 /* ---------- 화면 ---------- */
+// 필터·정렬·페이지는 useListQuery, 행 선택은 useSelection이 맡고 이 화면은 조립만 함
 
 export default function WorkOrderList() {
   const navigate = useNavigate()
@@ -67,6 +68,7 @@ export default function WorkOrderList() {
   }, [incoming, location.key])
 
   // 일괄 취소: 대기 상태만 취소 가능 (상태별 액션 규칙)
+  // 선택한 것 중 취소 가능한 건(cancellable)과 제외되는 건(blocked)을 나눠서 모달에 안내
   const selectedRows = workOrders.filter((w) => sel.selected.has(w.id))
   const cancellable = selectedRows.filter(CAN_CANCEL)
   const blocked = selectedRows.filter((w) => !CAN_CANCEL(w))

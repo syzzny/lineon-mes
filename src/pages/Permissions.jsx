@@ -27,12 +27,14 @@ export default function Permissions() {
   const [openRows, setOpenRows] = useState(() => new Set(['planning']))
   const [modal, setModal] = useState(null) // 'log' | 'save'
 
+  // draft(화면에서 바꾼 값)와 저장된 값을 비교해 변경 목록을 만듦 → 주황 테두리·저장 버튼 건수
   const changes = ROLES.flatMap((role) =>
     Object.keys(draft[role]).filter((k) => draft[role][k] !== permissions[role][k]).map((k) => ({ role, key: k, from: permissions[role][k], to: draft[role][k] })),
   )
   const changed = (role, key) => draft[role][key] !== permissions[role][key]
   const setCell = (role, key, v) => setDraft((d) => ({ ...d, [role]: { ...d[role], [key]: v } }))
   const setGroup = (role, row, v) => setDraft((d) => ({ ...d, [role]: { ...d[role], ...Object.fromEntries(row.children.map((c) => [c.key, v])) } }))
+  // 상위 메뉴 값: 하위 메뉴가 모두 같으면 그 값, 다르면 '혼합'
   const groupValue = (role, row) => {
     const vals = [...new Set(row.children.map((c) => draft[role][c.key]))]
     return vals.length === 1 ? vals[0] : '혼합'

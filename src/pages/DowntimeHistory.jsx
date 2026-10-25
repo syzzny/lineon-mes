@@ -56,6 +56,7 @@ export default function DowntimeHistory() {
   const canAct = levelOf(permissions, user.role, 'EQ-02') === '처리'
 
   const from = PERIODS.find((p) => p.key === period).from
+  // 기간으로 먼저 거르고, 라인·소요 시간(분)을 붙여 목록용 행으로 만듦
   const rows = useMemo(
     () =>
       downtime
@@ -75,6 +76,7 @@ export default function DowntimeHistory() {
   const list = q.list
   const unplanned = list.filter((d) => !d.planned)
   const total = unplanned.reduce((n, d) => n + d.minutes, 0)
+  // 사유별 합계 (계획 정비 제외) — 왼쪽 막대를 누르면 사유 필터로 연결
   const byReason = DOWNTIME_REASONS.map((r) => {
     const items = unplanned.filter((d) => d.reason === r)
     return { reason: r, count: items.length, minutes: items.reduce((n, d) => n + d.minutes, 0) }

@@ -1,3 +1,7 @@
+/**
+ * PP-04 작업지시 상세 — 핵심 수치 · 탭(기본정보·실적·불량·첨부) · 진행 이력
+ * 수정·조기 종료·취소 버튼은 상태별 규칙(constants/workOrder.js)에 따라 비활성화하고 이유를 툴팁으로 보여줌
+ */
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../components/layout/AppLayout'
@@ -174,12 +178,14 @@ export default function WorkOrderDetail() {
 
   const closed = wo.status === '완료' || wo.status === '취소'
   const open = (m) => { setReason(''); setModal(m) }
+  // 모달 확인: 취소 / 조기 종료 (사유 필수)
   const confirm = () => {
     if (modal === 'cancel') { cancel([wo.id], reason); toast(`${wo.id} 작업지시를 취소했어요`) }
     if (modal === 'finish') { finishEarly(wo.id, reason); toast(`${wo.id} 작업지시를 ${formatNumber(wo.done)} EA로 조기 종료했어요`) }
     setModal(null)
   }
 
+  // 실적·불량은 저장소에서 이 작업지시 것만 골라 탭에 표시
   const results = allResults.filter((r) => r.woId === wo.id)
   const defects = allDefects.filter((d) => d.woId === wo.id)
   const counts = { 실적: results.length, 불량: defects.length, 첨부: 0 }

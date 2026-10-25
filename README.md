@@ -19,8 +19,6 @@ npm run build:preview  # 파일 하나로 열어 보는 미리보기 → dist-pr
 npm run lint
 ```
 
-Vercel에 올릴 때는 Framework Preset을 **Vite**로 고르면 됩니다 (`vercel.json`에 새로고침 대응 설정 포함).
-
 ## 화면
 
 | ID | 화면 | 주소 | 핵심 동작 |

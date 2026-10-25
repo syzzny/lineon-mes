@@ -52,6 +52,7 @@ export default function Results() {
   const [period, setPeriod] = useState('week')
   const from = PERIODS.find((p) => p.key === period).from
 
+  // 기간 안의 실적 + 불량률(rate) 계산 → 정렬·표시에 사용
   const rows = useMemo(
     () => results.filter((r) => r.at >= from).map((r) => ({ ...r, rate: r.good + r.defect ? (r.defect / (r.good + r.defect)) * 100 : 0 })).sort((a, b) => b.at.localeCompare(a.at)),
     [results, from],

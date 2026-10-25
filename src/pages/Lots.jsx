@@ -140,10 +140,12 @@ function LotDetail({ lotNo }) {
 
   const { wo } = l
   const mat = MATERIAL_INFO[wo.itemCode.slice(0, 2)]
+  // 같은 원자재 LOT을 쓴 다른 제품 LOT = 문제 발생 시 함께 확인할 영향 범위
   const siblings = lots.filter((x) => x.material === l.material && x.lot !== l.lot)
   const lotDefects = defects.filter((d) => d.woId === wo.id)
   const lotResults = results.filter((r) => r.woId === wo.id)
   const held = l.ship === '출하 보류'
+  // 품목의 표준 공정 순서대로 공정 단계를 만듦 (마지막 단계만 진행 상태를 따라감)
   const steps = wo.route.map((r, i) => {
     const last = i === wo.route.length - 1
     const doneStep = wo.status === '완료' || !last

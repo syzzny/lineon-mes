@@ -112,6 +112,7 @@ export default function Items() {
   )
 }
 
+/** 오른쪽 편집 패널 — 새 품목이면 코드 입력·중복 확인, 기존 품목이면 바뀐 게 있을 때만 저장 가능 */
 function ItemEditor({ item, isNew, groups, usedBy, canEdit, onDone }) {
   const { items, run } = useMes()
   const toast = useToast()
@@ -121,6 +122,7 @@ function ItemEditor({ item, isNew, groups, usedBy, canEdit, onDone }) {
   const set = (k, v) => setF((x) => ({ ...x, [k]: v }))
   const dirty = JSON.stringify({ ...f, cycle: Number(f.cycle) }) !== JSON.stringify({ ...item, cycle: Number(item.cycle) })
 
+  // 품목코드 형식: 영문 2자-숫자 4자 (예: BR-2206)
   const errors = {
     code: isNew && (!/^[A-Z]{2}-\d{4}$/.test(f.code) ? '형식: 영문 2자-숫자 4자 (예: BR-2206)' : items.some((i) => i.code === f.code) ? '이미 있는 품목코드예요' : null),
     name: !f.name.trim() && '품목명을 입력하세요',

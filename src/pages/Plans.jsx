@@ -47,12 +47,14 @@ export default function Plans() {
   const col = (d) => Math.max(0, Math.min(7, Math.round((new Date(d) - new Date(week.start)) / 86400000)))
 
   const wos = workOrders.filter((w) => w.status !== '취소' && inWeek(w.start, w.due) && (!lineFilter || w.line === lineFilter))
+  // 이미 작업지시로 발행된 계획(planRef)은 점선 막대에서 빠짐
   const issued = new Set(workOrders.map((w) => w.planRef).filter(Boolean))
   const plans = PLAN_ONLY.filter((p) => !issued.has(p.id) && inWeek(p.from, p.to) && (!lineFilter || p.line === lineFilter))
 
   const totalQty = wos.reduce((n, w) => n + w.qty, 0) + plans.reduce((n, p) => n + p.qty, 0)
   const doneQty = wos.reduce((n, w) => n + w.done, 0)
 
+  // 미발행 계획 → 작업지시 등록 화면으로 값을 주소(쿼리)에 담아 넘김
   const issue = (p) => {
     const item = items.find((i) => i.code === p.itemCode)
     const q = new URLSearchParams({ itemCode: p.itemCode, qty: p.qty, due: p.to, line: p.line, start: p.from < TODAY ? TODAY : p.from, plan: p.plan, planRef: p.id })
@@ -60,6 +62,7 @@ export default function Plans() {
     navigate(`/work-orders/new?${q}`)
   }
 
+  // 막대 위치: 주 시작일 기준 몇 번째 칸에서 시작해 며칠 걸치는지 (주 밖으로 넘치면 잘라냄)
   const bar = (b) => {
     const from = b.from < week.start ? week.start : b.from
     const startCol = col(from)

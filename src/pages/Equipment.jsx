@@ -96,6 +96,7 @@ function EquipTree({ selected, onSelect }) {
   )
 }
 
+/** 오른쪽 상세 — 설비가 바뀌면 key로 새로 그려서 탭·모달 상태 초기화 */
 function EquipDetail({ eq }) {
   const { user, permissions, workOrders, downtime, run } = useMes()
   const toast = useToast()
@@ -108,8 +109,10 @@ function EquipDetail({ eq }) {
   const history = downtime.filter((d) => d.equip === eq.id).sort((a, b) => b.start.localeCompare(a.start))
   const unplanned = history.filter((d) => !d.planned)
   const openDown = history.find((d) => !d.end)
+  // 오늘 08:00~지금 구간을 가동·셋업·비가동·계획정비로 나눔 → 타임라인과 가동률 계산에 사용
   const segs = equipTimeline(eq, downtime, now.min)
   const elapsed = Math.max(1, Math.min(now.min, 1020) - 480)
+  // 가동률 = 가동 시간 / (경과 시간 - 계획 정비)  · 계획 정비는 가동률에서 제외하는 MES 관행
   const todayRate = Math.round((sumKind(segs, 'run') / (elapsed - sumKind(segs, 'plan'))) * 100)
   const monthMin = unplanned.reduce((n, d) => n + downtimeMinutes(d), 0)
   const monthRate = Math.round(100 - (monthMin / (16 * 540)) * 100 - (100 - EQUIP_LOAD[eq.id]) * 0.1)

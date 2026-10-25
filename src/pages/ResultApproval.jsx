@@ -33,6 +33,7 @@ export default function ResultApproval() {
   const sel = useSelection()
 
   const woOf = (r) => workOrders.find((w) => w.id === r.woId)
+  // 실적마다 확인이 필요한 이유(flags)를 계산 — 기준은 utils/mes.js resultFlags
   const rows = results.map((r) => ({ ...r, flags: resultFlags(r, woOf(r)) })).sort((a, b) => a.at.localeCompare(b.at))
   const pending = rows.filter((r) => r.status === '승인 대기')
   const TABS = {
@@ -45,6 +46,7 @@ export default function ResultApproval() {
   const active = rows.find((r) => r.id === activeId) ?? list[0]
   const selectable = tab === 'pending' || tab === 'check'
   const selected = list.filter((r) => sel.selected.has(r.id))
+  // 일괄 승인할 때 '확인 필요'가 섞여 있으면 한 번 더 확인 모달을 띄움
   const flaggedSel = selected.filter((r) => r.flags.length)
 
   const approve = (ids) => {
@@ -188,6 +190,7 @@ export default function ResultApproval() {
   )
 }
 
+/** 오른쪽 상세 — 수치, 확인 필요 이유, 태블릿 입력 기록, 승인·반려 */
 function Detail({ r, wo, canAct, onApprove, onReject }) {
   const total = r.good + r.defect
   return (

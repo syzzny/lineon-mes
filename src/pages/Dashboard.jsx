@@ -36,6 +36,7 @@ export default function Dashboard() {
   const [period, setPeriod] = useState('today')
   const [line, setLine] = useState('')
 
+  // 라인을 고르면 아래 모든 지표가 그 라인 기준으로 다시 계산됨
   const lines = line ? [line] : LINES
   const eqs = equipment.filter((e) => !line || e.line === line)
   const wos = workOrders.filter((w) => !line || w.line === line)
@@ -67,7 +68,7 @@ export default function Dashboard() {
   const defectQty = defects.filter((d) => d.at >= from && (!line || d.line === line)).reduce((n, d) => n + d.qty, 0)
   const defectRate = periodDone ? (defectQty / periodDone) * 100 : 0
 
-  // 납기 위험
+  // 납기 위험: 지연 → 시간 부족 → 여유 적음 순 (계산 기준은 utils/mes.js dueRisk)
   const risks = wos
     .map((w) => ({ wo: w, risk: dueRisk(w, items, now.min) }))
     .filter((r) => r.risk.level !== 'ok')
@@ -225,6 +226,7 @@ export default function Dashboard() {
   )
 }
 
+/** 상단 '바로 처리할 일' 카드 — 누르면 해당 화면으로 이동 */
 function AlertCard({ tone, icon, title, value, sub, onClick }) {
   return (
     <button type="button" className={`alert-card is-${tone}`} onClick={onClick}>
